@@ -10,7 +10,7 @@ public class RetrofitUtils {
     static Retrofit getRetrofitClient()
     {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.themoviedb.org/3/movie")
+                .baseUrl("http://api.themoviedb.org/3/movie/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
