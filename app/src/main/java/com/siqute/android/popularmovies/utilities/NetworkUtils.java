@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.siqute.android.popularmovies.models.Movie;
 import com.siqute.android.popularmovies.models.MovieJson;
-import com.siqute.android.popularmovies.models.TMBDJson;
+import com.siqute.android.popularmovies.models.TMDBJson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,22 +23,22 @@ public class NetworkUtils {
         ArrayList<Movie> movies = new ArrayList<>();
         TMDBService tmdbService = RetrofitUtils.getRetrofitClient()
                 .create(TMDBService.class);
-        Call<List<TMBDJson>> call = tmdbService.getPopularMovies(TMDBApiKey.getApiKey(), "1");
+        Call<List<TMDBJson>> call = tmdbService.getPopularMovies(TMDBApiKey.getApiKey(), "1");
         //make an asynchronous call on a background thread
-        call.enqueue(new Callback<List<TMBDJson>>() {
+        call.enqueue(new Callback<List<TMDBJson>>() {
             @Override
-            public void onResponse(Call<List<TMBDJson>> call, Response<List<TMBDJson>> response) {
+            public void onResponse(Call<List<TMDBJson>> call, Response<List<TMDBJson>> response) {
                 //get the TMDB page JSON
-                for (TMBDJson tmbdJson: response.body())
+                for (TMDBJson tmdbJson: response.body())
                 {
-                    for (MovieJson mj:tmbdJson.results) {
-                        Log.i("Movie Title", mj.originalTitle);
+                    for (MovieJson mj:tmdbJson.getResults()) {
+                        Log.i("Movie Title", mj.getOriginalTitle());
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<List<TMBDJson>> call, Throwable t) {
+            public void onFailure(Call<List<TMDBJson>> call, Throwable t) {
                 call.cancel();
                 Log.i("NetworkUtils error", t.getMessage());
             }
